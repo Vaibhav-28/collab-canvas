@@ -110,80 +110,81 @@ export default function Page() {
 
   useEffect(() => {
     const canvas = initializeFabric({ canvasRef, fabricRef });
-    canvas.on("mouse:down", (options) => {
-      handleCanvasMouseDown({
-        options,
-        canvas,
-        isDrawing,
-        shapeRef,
-        selectedShapeRef,
+    if (canvas) {
+      canvas.on("mouse:down", (options) => {
+        handleCanvasMouseDown({
+          options,
+          canvas,
+          isDrawing,
+          shapeRef,
+          selectedShapeRef,
+        });
       });
-    });
 
-    canvas.on("mouse:move", (options) => {
-      handleCanvasMouseMove({
-        options,
-        canvas,
-        isDrawing,
-        shapeRef,
-        selectedShapeRef,
-        syncShapeInStorage,
+      canvas.on("mouse:move", (options) => {
+        handleCanvasMouseMove({
+          options,
+          canvas,
+          isDrawing,
+          shapeRef,
+          selectedShapeRef,
+          syncShapeInStorage,
+        });
       });
-    });
 
-    canvas.on("mouse:up", () => {
-      handleCanvasMouseUp({
-        canvas,
-        isDrawing,
-        shapeRef,
-        selectedShapeRef,
-        syncShapeInStorage,
-        setActiveElement,
-        activeObjectRef,
+      canvas.on("mouse:up", () => {
+        handleCanvasMouseUp({
+          canvas,
+          isDrawing,
+          shapeRef,
+          selectedShapeRef,
+          syncShapeInStorage,
+          setActiveElement,
+          activeObjectRef,
+        });
       });
-    });
 
-    canvas.on("object:modified", (options) => {
-      handleCanvasObjectModified({
-        options,
-        syncShapeInStorage,
+      canvas.on("object:modified", (options) => {
+        handleCanvasObjectModified({
+          options,
+          syncShapeInStorage,
+        });
       });
-    });
 
-    canvas.on("selection:created", (options) => {
-      handleCanvasSelectionCreated({
-        options,
-        isEditingRef,
-        setElementAttributes,
+      canvas.on("selection:created", (options) => {
+        handleCanvasSelectionCreated({
+          options,
+          isEditingRef,
+          setElementAttributes,
+        });
       });
-    });
 
-    canvas.on("object:scaling", (options) => {
-      handleCanvasObjectScaling({ options, setElementAttributes });
-    });
-
-    canvas.on("path:created", (options) => {
-      handlePathCreated({ options, syncShapeInStorage });
-    });
-
-    window.addEventListener("resize", () =>
-      handleResize({ canvas: fabricRef.current })
-    );
-
-    window.addEventListener("keydown", (e) => {
-      handleKeyDown({
-        e,
-        canvas: fabricRef.current,
-        undo,
-        redo,
-        syncShapeInStorage,
-        deleteShapeFromStorage,
+      canvas.on("object:scaling", (options) => {
+        handleCanvasObjectScaling({ options, setElementAttributes });
       });
-    });
 
-    return () => {
-      canvas.dispose();
-    };
+      canvas.on("path:created", (options) => {
+        handlePathCreated({ options, syncShapeInStorage });
+      });
+
+      window.addEventListener("resize", () =>
+        handleResize({ canvas: fabricRef.current })
+      );
+
+      window.addEventListener("keydown", (e) => {
+        handleKeyDown({
+          e,
+          canvas: fabricRef.current,
+          undo,
+          redo,
+          syncShapeInStorage,
+          deleteShapeFromStorage,
+        });
+      });
+      return () => {
+        canvas.dispose();
+      };
+    }
   }, []);
 
   useEffect(() => {

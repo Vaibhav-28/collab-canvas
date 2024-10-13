@@ -2,12 +2,7 @@
 import * as fabric from "fabric";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  CustomFabricObject,
-  ElementDirection,
-  ImageUpload,
-  ModifyShape,
-} from "@/types/type";
+import { ElementDirection, ImageUpload, ModifyShape } from "@/types/type";
 
 export const createRectangle = (pointer: PointerEvent) => {
   const rect = new fabric.Rect({
@@ -17,7 +12,7 @@ export const createRectangle = (pointer: PointerEvent) => {
     height: 100,
     fill: "#aabbcc",
     objectId: uuidv4(),
-  } as CustomFabricObject<fabric.Rect>);
+  } as any);
 
   return rect;
 };
@@ -30,7 +25,7 @@ export const createTriangle = (pointer: PointerEvent) => {
     height: 100,
     fill: "#aabbcc",
     objectId: uuidv4(),
-  } as CustomFabricObject<fabric.Triangle>);
+  } as any);
 };
 
 export const createCircle = (pointer: PointerEvent) => {
@@ -50,7 +45,7 @@ export const createLine = (pointer: PointerEvent) => {
       stroke: "#aabbcc",
       strokeWidth: 2,
       objectId: uuidv4(),
-    } as CustomFabricObject<fabric.Line>
+    } as any
   );
 };
 
@@ -63,7 +58,7 @@ export const createText = (pointer: PointerEvent, text: string) => {
     fontSize: 36,
     fontWeight: "400",
     objectId: uuidv4(),
-  } as fabric.ITextOptions);
+  } as any);
 };
 
 export const createSpecificShape = (
@@ -113,8 +108,7 @@ export const handleImageUpload = ({
       img.scaleToHeight(200);
 
       canvas.current.add(img);
-
-      // @ts-ignore
+      // @ts-expect-error may throw error
       img.objectId = uuidv4();
 
       shapeRef.current = img;

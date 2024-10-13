@@ -35,14 +35,16 @@ export const initializeFabric = ({
 
   // create fabric canvas
 
-  const canvas = new fabric.Canvas(canvasRef.current, {
-    width: canvasElement?.clientWidth,
-    height: canvasElement?.clientHeight,
-    // defaultCursor: cursorUrl,
-  });
-  fabricRef.current = canvas;
-  return canvas;
-
+  if (canvasRef.current) {
+    const canvas = new fabric.Canvas(canvasRef.current, {
+      width: canvasElement?.clientWidth,
+      height: canvasElement?.clientHeight,
+      // defaultCursor: cursorUrl,
+    });
+    fabricRef.current = canvas;
+    return canvas;
+  }
+  return undefined;
   // set canvas reference to fabricRef so we can use it later anywhere outside canvas listener
 };
 
@@ -245,11 +247,7 @@ export const handlePathCreated = ({
 };
 
 // check how object is moving on canvas and restrict it to canvas boundaries
-export const handleCanvasObjectMoving = ({
-  options,
-}: {
-  options: fabric.IEvent;
-}) => {
+export const handleCanvasObjectMoving = ({ options }: any) => {
   // get target object which is moving
   const target = options.target as fabric.Object;
 
@@ -301,23 +299,23 @@ export const handleCanvasSelectionCreated = ({
   if (selectedElement && options.selected.length === 1) {
     // calculate scaled dimensions of the object
     const scaledWidth = selectedElement?.scaleX
-      ? selectedElement?.width! * selectedElement?.scaleX
+      ? selectedElement.width! * selectedElement?.scaleX
       : selectedElement?.width;
 
     const scaledHeight = selectedElement?.scaleY
-      ? selectedElement?.height! * selectedElement?.scaleY
-      : selectedElement?.height;
+      ? selectedElement.height! * selectedElement?.scaleY
+      : selectedElement.height;
 
     setElementAttributes({
       width: scaledWidth?.toFixed(0).toString() || "",
       height: scaledHeight?.toFixed(0).toString() || "",
       fill: selectedElement?.fill?.toString() || "",
       stroke: selectedElement?.stroke || "",
-      // @ts-ignore
+      // @ts-expect-error may throw error
       fontSize: selectedElement?.fontSize || "",
-      // @ts-ignore
+      // @ts-expect-error may throw error
       fontFamily: selectedElement?.fontFamily || "",
-      // @ts-ignore
+      //@ts-expect-error may throw error
       fontWeight: selectedElement?.fontWeight || "",
     });
   }
@@ -332,11 +330,11 @@ export const handleCanvasObjectScaling = ({
 
   // calculate scaled dimensions of the object
   const scaledWidth = selectedElement?.scaleX
-    ? selectedElement?.width! * selectedElement?.scaleX
+    ? selectedElement.width! * selectedElement?.scaleX
     : selectedElement?.width;
 
   const scaledHeight = selectedElement?.scaleY
-    ? selectedElement?.height! * selectedElement?.scaleY
+    ? selectedElement.height! * selectedElement?.scaleY
     : selectedElement?.height;
 
   setElementAttributes((prev) => ({
@@ -404,13 +402,7 @@ export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {
 };
 
 // zoom canvas on mouse scroll
-export const handleCanvasZoom = ({
-  options,
-  canvas,
-}: {
-  options: fabric.IEvent & { e: WheelEvent };
-  canvas: fabric.Canvas;
-}) => {
+export const handleCanvasZoom = ({ options, canvas }: any) => {
   const delta = options.e?.deltaY;
   let zoom = canvas.getZoom();
 

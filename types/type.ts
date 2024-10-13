@@ -66,8 +66,7 @@ export type ActiveElement = {
   icon: string;
 } | null;
 
-export interface CustomFabricObject<T extends fabric.Object>
-  extends fabric.Object {
+export interface CustomFabricObject extends fabric.Object {
   objectId?: string;
 }
 
@@ -80,7 +79,7 @@ export type ModifyShape = {
 };
 
 export type ElementDirection = {
-  canvas: fabric.Canvas;
+  canvas: any;
   direction: string;
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
@@ -127,7 +126,7 @@ export type LiveCursorProps = {
 };
 
 export type CanvasMouseDown = {
-  options: fabric.IEvent;
+  options: any;
   canvas: fabric.Canvas;
   selectedShapeRef: any;
   isDrawing: React.MutableRefObject<boolean>;
@@ -135,7 +134,7 @@ export type CanvasMouseDown = {
 };
 
 export type CanvasMouseMove = {
-  options: fabric.IEvent;
+  options: any;
   canvas: fabric.Canvas;
   isDrawing: React.MutableRefObject<boolean>;
   selectedShapeRef: any;
@@ -154,23 +153,23 @@ export type CanvasMouseUp = {
 };
 
 export type CanvasObjectModified = {
-  options: fabric.IEvent;
+  options: any;
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
 export type CanvasPathCreated = {
-  options: (fabric.IEvent & { path: CustomFabricObject<fabric.Path> }) | any;
+  options: any;
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
 export type CanvasSelectionCreated = {
-  options: fabric.IEvent;
+  options: any;
   isEditingRef: React.MutableRefObject<boolean>;
-  setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
+  setElementAttributes: any;
 };
 
 export type CanvasObjectScaling = {
-  options: fabric.IEvent;
+  options: any;
   setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
 };
 
